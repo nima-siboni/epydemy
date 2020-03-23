@@ -11,8 +11,9 @@ from citizen  import citizen
 # alpha: the tendency to go to the next destination (see description in class citizen)
 # system_size: the spatial extension of the system
 # contagiosity: the factor which determines how likely it is to get infected if you are in the same position with a sick person. This value is [0:1]
+# immunity_step: increase of the immunity for a sick person after each timestep
 
-def one_full_step(volk, alpha, system_size, contagiosity):
+def one_full_step(volk, alpha, system_size, contagiosity, immunity_step):
     # useful constants
     nr_people = np.size(volk)
 
@@ -27,9 +28,15 @@ def one_full_step(volk, alpha, system_size, contagiosity):
 
     # now for every healthy person we check the trace of everybody else on the location of that person
     for i in range(0, nr_people):
-        if (volk[i].health_status == 0):
+        if (volk[i].health_status == 0 and volk[i].immunity != 1):
             dirtiesness = earth[volk[i].pos[0], volk[i].pos[1]]
             probability = dirtiesness * contagiosity
             if (np.random.rand() < probability):
                 volk[i].health_status = 1
-    
+    # increase the immunity of sick people towards 1, by steps of immunity_steps
+    for i in range(0, nr_people):
+        if (volk[i].health_status == 1 and volk[i].immunity < 1):
+            volk[i].immunity += immunity_step
+        if (volk[i].immunity >= 1): #recoverd
+            volk[i].immunity = 1
+            volk[i].health_status = 0
