@@ -1,7 +1,9 @@
 # Importing libraries
 import numpy as np
 import matplotlib.pyplot as plt
+from matplotlib import interactive
 
+import time
 # Importing classes
 from building import building    
 from citizen  import citizen
@@ -12,10 +14,10 @@ from create_buildings import create_building_and_assign_volk
 from plotter import plotter
 from create_citizens import create_citizens
 
-nr_people = 1200; # number of citizens
-nr_homes = 400; # number of homes
-nr_workplaces = 40 # number of workplaces
-city_size = 400; # the spatial dimension of the city
+nr_people = 300; # number of citizens
+nr_homes = 100; # number of homes
+nr_workplaces = 10 # number of workplaces
+city_size = 200; # the spatial dimension of the city
 
 # create the population, assigning None to most of the attributions
 volk = create_citizens(city_size, nr_people)
@@ -37,12 +39,24 @@ for i in range(0, nr_workplaces):
 #    print(home[i].peoples_id)
     sum+=workplace[i].number()
 print(sum)
-print(np.size(home))
 
+#setting the next_dest to home
 for i in range(0,nr_people):
-    print(volk[i].home)
-    print("workplace "+str(volk[i].work))
-plotter(workplace,'bs')
+    volk[i].next_dest = home[volk[i].home].pos
+
+
+#plotter(workplace,'bs')
 plotter(home,'rs')
 plotter(volk,'go')
-plt.show()
+
+
+
+for step in range(0,200):
+    for i in range(0,nr_people):
+        volk[i].one_step(4)
+    plt.clf()    
+    plotter(home,'rs')
+    plotter(volk,'go')
+    plt.pause(0.1)
+
+raw_input('press return to continue')
