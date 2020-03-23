@@ -1,7 +1,8 @@
 import numpy as np
 from building import building
 
-# this function return a list of buildings (with size nr_building), in a city of size (city_size), and assign nr_people people to these buildings, and return the list of buildings
+# this function return a list of buildings (with size nr_building), in a city of size (city_size), 
+# and assign nr_people people to these buildings, and return the list of buildings
 def create_building(city_size, nr_people, nr_building):
     upper_limit_reached = False
     total_nr_assigned = 0
@@ -32,7 +33,9 @@ def create_building(city_size, nr_people, nr_building):
     return building
 
 
-# this function return a list of buildings (with size nr_building), in a city of size (city_size), and assign a list of people (volk) to these buildings, and return the list of buildings. It also assing the building id to individuals in the volk (to building_name)
+# this function return a list of buildings (with size nr_building), in a city of size (city_size), 
+# and assign a list of people (volk) to these buildings, and return the list of buildings. 
+# It also assing the building id to individuals in the volk (to building_name)
 def create_building_and_assign_volk(city_size, volk, nr_building, building_name):
     nr_people = np.size(volk)
     upper_limit_reached = False

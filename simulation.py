@@ -14,10 +14,10 @@ from create_buildings import create_building_and_assign_volk
 from plotter import plotter
 from create_citizens import create_citizens
 
-nr_people = 300; # number of citizens
-nr_homes = 100; # number of homes
-nr_workplaces = 10 # number of workplaces
-city_size = 200; # the spatial dimension of the city
+nr_people		=	300		# number of citizens
+nr_homes		= 	100     # number of homes
+nr_workplaces	=	10		# number of workplaces
+city_size 		= 	200     # the spatial dimension of the city
 
 # create the population, assigning None to most of the attributions
 volk = create_citizens(city_size, nr_people)
@@ -40,7 +40,7 @@ for i in range(0, nr_workplaces):
     sum+=workplace[i].number()
 print(sum)
 
-#setting the next_dest to home
+# setting the next_dest to home
 for i in range(0,nr_people):
     volk[i].next_dest = home[volk[i].home].pos
 
@@ -50,13 +50,21 @@ plotter(home,'rs')
 plotter(volk,'go')
 
 
-
-for step in range(0,200):
+for shift in range(0,5):
+	# setting the next_dest to destination for this shift
     for i in range(0,nr_people):
-        volk[i].one_step(4)
-    plt.clf()    
-    plotter(home,'rs')
-    plotter(volk,'go')
-    plt.pause(0.1)
+        if np.remainder(shift,2)==0:
+            volk[i].next_dest = home[volk[i].home].pos
+        if np.remainder(shift,2)==1:
+            volk[i].next_dest = workplace[volk[i].work].pos
+    print('next dest assigned')        
+    for step in range(0,200):
+        for i in range(0,nr_people):
+           volk[i].one_step(4)
+        plt.clf()    
+        plotter(home,'r^')
+        plotter(workplace,'bs')
+        plotter(volk,'go')
+        plt.pause(0.01)
 
 raw_input('press return to continue')
