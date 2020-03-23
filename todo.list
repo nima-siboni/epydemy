@@ -1,1 +1,7 @@
-1- creating social-places and assigning people to them. Also for each person a >>list<< of social-places should be assigned (unlike the case of home/work where each person has only one number assigned to him/her/diverse). Some people are social and go to many places. 
+0- currently people who are in the same home also very likely to be in the same workplace!!!!
+sth like this can be implemented properly before assigning people to buildings
+    #peopleidlist = np.arange(nr_people)
+    #np.random.shuffle(peopleidlist);
+
+1- creating social-places and assigning people to them. Also for each person a >>list<< of social-places should be assigned (unlike the case of home/work where each person has only one number assigned to him/her/diverse). Some people are social and go to many places.
+
