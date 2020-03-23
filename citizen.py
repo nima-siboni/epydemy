@@ -10,6 +10,8 @@ class citizen:
         self.home = home
         self.work = work
         self.social_places = social_places
+        self.maxsocial_places = 5
+        self.minsocial_places = 0
         self.next_dest = next_dest
         self.alive = 1 # 0: dead, 1: alive. The default value is 1 (i.e. we dont need to create dead people)
         self.immunity = 0 # [0,1): not immue, 1: immue # The default value is 0 as no one is born immune; no vaccine either

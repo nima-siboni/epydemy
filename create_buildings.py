@@ -73,5 +73,9 @@ def create_building_and_assign_volk(city_size, volk, nr_building, building_name)
         
             if (total_nr_assigned == nr_people):
                 upper_limit_reached = True
+    if (building_name=='socialplace'):
+		for i in range(0,nr_people):
+			nr_socialplaces = np.random.randint(volk[i].minsocial_places, high = volk[i].maxsocial_places+1)
+			volk[i].social_places = np.random.randint(0,high = nr_socialplaces+1, size = nr_socialplaces)
         
     return buildings
