@@ -63,9 +63,9 @@ def assign_volk_to_buildings_and_vice_versa(volk, building):
             for i in range(nr_people_in_this_place):
                 pid = people_in_this_place[i]
                 # this part should be modified if usages of buildings are modified
-                if (usage == 'social_places'):
-                    volk[pid].social_places = np.append(volk[pid].social_places, bid)
-        
+                if (usage == 'social_place'):
+                    volk[pid].social_places = np.append(volk[pid].social_places, int(bid))
+                
     return volk, building
 
 def health_statistics(volk, verbose):

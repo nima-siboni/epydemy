@@ -33,7 +33,7 @@ def one_full_step(city, volk, time):
     # loop over all people and move them one step and make them leave their traces on the earth
     for i in range(0, nr_people):
         if (volk[i].alive == 1):
-            volk[i].one_step(alpha, system_size)
+            volk[i].one_step(system_size)
             earth[volk[i].pos[0], volk[i].pos[1]] += volk[i].health_status
 
     # now for every healthy person we check the trace of everybody else on the location of that person
@@ -54,7 +54,8 @@ def one_full_step(city, volk, time):
         if (volk[i].immunity >= 1): #recoverd
             volk[i].immunity = 1
             volk[i].health_status = 0
-
+    # increment timestep by 1 unit        
+    city.timestep = city.timestep + 1
 
 # one_partial_step is similar to one_full_step expect that particles dont move
 # a partial step consists of
@@ -100,6 +101,8 @@ def one_partial_step(city, volk):
         if (volk[i].immunity >= 1): #recoverd
             volk[i].immunity = 1
             volk[i].health_status = 0
+            
+    city.timestep = city.timestep + 1
 
 # setting the destination of the volk to their "building". If "building" doesnt exist (for example for someone who is not social)
 # then the destination is set to plan_b_building. This should be a place such that everybody has one (for example home or work which are exclusive)
@@ -120,7 +123,7 @@ def setting_new_destination(volk, building, plan_b_building):
         msg = 'sth went wrong'
     print(msg)
     
-    for i in range(0,nr_people):
+    for i in range(0, nr_people):
 
         if (volk[i].alive == 1): # destinations are only set for alive people
             
@@ -133,13 +136,15 @@ def setting_new_destination(volk, building, plan_b_building):
             if (building_type == 'social_place'):
                 if np.size(volk[i].social_places)>0:
 		    desiredsocialplace  = np.random.randint(np.size(volk[i].social_places))
-		    volk[i].next_dest = socialplace[volk[i].social_places[desiredsocialplace]].pos
+                    tmp =  int(volk[i].social_places[desiredsocialplace])
+		    volk[i].next_dest = building[tmp].pos
 	        else:
 		    volk[i].next_dest = plan_b_building[volk[i].home].pos
-		
+		    print("individual i="+str(i)+" is going home instead of socializing")
+                    print(volk[i].social_places)
 
 
-def commute_to_next_destionation(city, volk, home, work_place, social_place, time):
+def commute_to_next_destionation(city, volk, home, work_place, social_place, time, with_plotting):
 
     print('... commute started')
 
@@ -155,19 +160,19 @@ def commute_to_next_destionation(city, volk, home, work_place, social_place, tim
     while (nr_arrived < nr_people):
 
         nr_arrived = 0
-
-    
+        
         one_full_step(city, volk, time)
         # checking if everybody has arrived
         for i in range(nr_people):
             if np.array_equal(volk[i].pos, volk[i].next_dest):
                 nr_arrived += 1
         # plotting
-        plt.clf()    
-        plotter(home, 'r^')
-        plotter(work_place, 'bs')
-        plotter(volk, 'go')
-        plotter(social_place, 'r+')
-        plt.pause(0.0005)
+        if(with_plotting == True):
+            plt.clf()    
+            plotter(home, 'r^')
+            plotter(work_place, 'bs')
+            plotter(volk, 'go')
+            plotter(social_place, 'r+')
+            plt.pause(0.0005)
 
     print('... everyone arrived')

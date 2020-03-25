@@ -29,10 +29,10 @@ percentage = 0.01 # the approximate percentage of infected people at the beginni
 contagiosity = 0.01 # the probability that you get infected if you are close to an infected person for a timestep
 immunity_step = 1./600 #increase of immunity per step for the infected; it is chosen such that it is smaller than 1/(number of steps per day), so the infected person does not heal over one day
 alpha = 10 # let it be! :D
-
-my_city = city(nr_people, nr_homes, nr_workplaces, nr_socialplaces, city_size, percentage, contagiosity, immunity_step, alpha)
+plotting = True
+my_city = city(nr_people, nr_homes, nr_workplaces, nr_socialplaces, city_size, percentage, contagiosity, immunity_step, alpha, 0)
 # a duplicate of the city where no ones is sick and the disease is not contagiose
-healthy_city = city(nr_people, nr_homes, nr_workplaces, nr_socialplaces, city_size, 0, 0, immunity_step, alpha)
+healthy_city = city(nr_people, nr_homes, nr_workplaces, nr_socialplaces, city_size, 0, 0, immunity_step, alpha, 0)
 
 # create the population, assigning None to most of the attributions
 volk = create_citizens(my_city)
@@ -54,27 +54,31 @@ social_place = create_buildings(my_city, 'social_place')
 
 # setting the next_dest to home
 setting_new_destination(volk, home, home)
-for i in range(0, 100): #sending everybody home without getting sick
+
+for i in range(0, 200): #sending everybody home without getting sick
     one_full_step(healthy_city, volk, 'night')
     
 for shift in range(0, 100):
     #setting the new destination
     if (shift % 3 == 0):
         setting_new_destination(volk, work_place, home)
-        shift_duration_in_steps = 50
+        shift_duration_in_steps = 200
         time = 'morning'
     if (shift % 3 == 1):
         setting_new_destination(volk, social_place, home)
-        shift_duration_in_steps = 50
+        shift_duration_in_steps = 200
         time = 'evening'
     if (shift % 3 == 2):
         setting_new_destination(volk, home, home)
-        shift_duration_in_steps = 50
+        shift_duration_in_steps = 200
         time = 'night'
         
-    [healthy, not_infected, immune, sick] = health_statistics(volk,'v')
-    commute_to_next_destionation(my_city, volk, home, work_place, social_place, time)
-    [healthy, not_infected, immune, sick] = health_statistics(volk,'v')
+    [healthy, not_infected, immune, sick] = health_statistics(volk, 'v')
+
+    commute_to_next_destionation(my_city, volk, home, work_place, social_place, time, plotting)
+
+    [healthy, not_infected, immune, sick] = health_statistics(volk, 'v')
+
     for step in range(shift_duration_in_steps):
         one_partial_step(my_city, volk)
 

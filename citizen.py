@@ -20,7 +20,7 @@ class citizen:
     # alpha = 1 leads to no preference
     # alpha > 1 leads to approaching the next_dest
     # alpha < 1 leads to further distancing from the next_dest
-    def one_step(self, alpha, system_size):
+    def one_step_random_walk(self, alpha, system_size):
         r = np.random.rand()
         if (r > 1/(1+alpha)): # approching the next_dest
             self.pos[0] = self.pos[0] + np.sign(self.next_dest[0] - self.pos[0])
@@ -40,4 +40,21 @@ class citizen:
         if (self.pos[1] >= system_size):
             self.pos[1] = system_size - 1;
             
+
+    # one_step takes one step  toward the next step
+
+    def one_step(self, system_size):
+        self.pos[0] = self.pos[0] + np.sign(self.next_dest[0] - self.pos[0])
+        self.pos[1] = self.pos[1] + np.sign(self.next_dest[1] - self.pos[1])
+        # applying a reflecting boundary condition
+        # it is assumed that the earth is a flat square
+        if (self.pos[0] < 0):
+            self.pos[0] = 0
+        if (self.pos[0] >= system_size):
+            self.pos[0] = system_size - 1;
+        if (self.pos[1] < 0):
+            self.pos[1] = 0
+        if (self.pos[1] >= system_size):
+            self.pos[1] = system_size - 1;
             
+
