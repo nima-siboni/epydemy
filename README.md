@@ -17,4 +17,10 @@ Everyday people go happily from home to work to gathering places and back to hom
 Meanwhile there is a disease (with tunable contagiosity rate) is spreading via contact between people! Infected people either die (not yet implemented, thanks god!) or get immune.  
   
 The results of the simulation are used to feed a neural network for predicting the probability of catching the disease for each individual based on a certain number of features.
-  
+
+You can start the simulation simply by
+
+```
+python simulation.py
+
+```
