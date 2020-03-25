@@ -12,3 +12,5 @@ class city:
         self.immunity_step = immunity_step #increase of immunity per step for the infected; it is chosen such that it is smaller than 1/(number of steps per day), so the infected person does not heal over one day
         self.alpha = alpha # let it be! :D
         self.timestep = timestep
+        self.reportfile = open("health_reports.dat","w+")
+        

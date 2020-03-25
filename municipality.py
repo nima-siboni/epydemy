@@ -68,7 +68,7 @@ def assign_volk_to_buildings_and_vice_versa(volk, building):
                 
     return volk, building
 
-def health_statistics(volk, verbose):
+def health_statistics(city, volk, verbose):
     nr_people = np.size(volk)
     sick = 0
     immune = 0
@@ -84,5 +84,7 @@ def health_statistics(volk, verbose):
         immune += volk[i].immunity
     healthy = recovered_or_immune + not_infected
     if (verbose == 'v'):
-        print('nr healthy: '+ str(healthy) + '  (not_infected: '+ str(not_infected) + ', immune: ' + str(recovered_or_immune) + '),    nr sick: ' + str(sick)) 
+        print('nr healthy: '+ str(healthy) + '  (not_infected: '+ str(not_infected) + ', immune: ' + str(recovered_or_immune) + '),    nr sick: ' + str(sick))
+        city.reportfile.write(str(city.timestep)+ ' ' + str(healthy) + ' ' + str(not_infected) + '  ' + str(recovered_or_immune) + '  ' + str(sick)+'\n')
+        city.reportfile.flush()
     return healthy, not_infected, recovered_or_immune, sick

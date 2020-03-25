@@ -20,16 +20,17 @@ from dynamics import setting_new_destination
 from dynamics import commute_to_next_destionation
 from municipality import health_statistics
 
-nr_people = 150	# number of citizens
-nr_homes = 50 # number of homes
-nr_workplaces =	15 # number of work_places
-nr_socialplaces = 10 # number of social places 
-city_size = 200 # the spatial dimension of the city
-percentage = 0.01 # the approximate percentage of infected people at the beginning
-contagiosity = 0.01 # the probability that you get infected if you are close to an infected person for a timestep
-immunity_step = 1./600 #increase of immunity per step for the infected; it is chosen such that it is smaller than 1/(number of steps per day), so the infected person does not heal over one day
+nr_people = 10000	# number of citizens
+nr_homes =  3000 # number of homes
+nr_workplaces =	200 # number of work_places
+nr_socialplaces = 1000 # number of social places 
+city_size = 2000 # the spatial dimension of the city
+percentage = 0.02 # the approximate percentage of infected people at the beginning
+contagiosity = 0.0002 # the probability that you get infected if you are close to an infected person for a timestep
+immunity_step = 1./1200 #increase of immunity per step for the infected; it is chosen such that it is smaller than 1/(number of steps per day), so the infected person does not heal over one day
 alpha = 10 # let it be! :D
-plotting = True
+plotting = False
+
 my_city = city(nr_people, nr_homes, nr_workplaces, nr_socialplaces, city_size, percentage, contagiosity, immunity_step, alpha, 0)
 # a duplicate of the city where no ones is sick and the disease is not contagiose
 healthy_city = city(nr_people, nr_homes, nr_workplaces, nr_socialplaces, city_size, 0, 0, immunity_step, alpha, 0)
@@ -55,31 +56,34 @@ social_place = create_buildings(my_city, 'social_place')
 # setting the next_dest to home
 setting_new_destination(volk, home, home)
 
-for i in range(0, 200): #sending everybody home without getting sick
+for i in range(0, 800): #sending everybody home without getting sick
     one_full_step(healthy_city, volk, 'night')
-    
-for shift in range(0, 100):
+
+[healthy, not_infected, immune, sick] = health_statistics(my_city, volk, 'v')
+
+shift = 0
+while (sick>0 and shift<100):
     #setting the new destination
     if (shift % 3 == 0):
         setting_new_destination(volk, work_place, home)
-        shift_duration_in_steps = 200
+        shift_duration_in_steps = 500
         time = 'morning'
     if (shift % 3 == 1):
         setting_new_destination(volk, social_place, home)
-        shift_duration_in_steps = 200
+        shift_duration_in_steps = 500
         time = 'evening'
     if (shift % 3 == 2):
         setting_new_destination(volk, home, home)
-        shift_duration_in_steps = 200
+        shift_duration_in_steps = 500
         time = 'night'
         
-    [healthy, not_infected, immune, sick] = health_statistics(volk, 'v')
 
     commute_to_next_destionation(my_city, volk, home, work_place, social_place, time, plotting)
 
-    [healthy, not_infected, immune, sick] = health_statistics(volk, 'v')
+    [healthy, not_infected, immune, sick] = health_statistics(my_city, volk, 'v')
 
     for step in range(shift_duration_in_steps):
         one_partial_step(my_city, volk)
-
+        
+    shift = shift + 1
 raw_input('press return to continue')
