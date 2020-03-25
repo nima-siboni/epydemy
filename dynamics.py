@@ -4,6 +4,8 @@ import matplotlib.pyplot as plt
 from matplotlib import interactive
 import time
 from plotter import plotter
+# WARNING: ONLY USE THIS FOR COMMUTE
+# if you want to use if for other porpuses be careful of time input and its meaning
 # one_full_step consists of
 # everybody who is alive would make one step
 # it will be checked if people are in the same position at the updated positions, this is done by making
@@ -16,8 +18,8 @@ from plotter import plotter
 # system_size: the spatial extension of the system
 # contagiosity: the factor which determines how likely it is to get infected if you are in the same position with a sick person. This value is [0:1]
 # immunity_step: increase of the immunity for a sick person after each timestep
-
-def one_full_step(volk, alpha, system_size, contagiosity, immunity_step):
+# time: if time is morning (i.e. we are commuting to work) and we have arrived at the destination, the steps after the arrival at work is not going to affect our health. THIS FEATURE CAN CAUSE PROBLEMS IF THIS FUNCTION IS USED FOR OTHER PORPUSES THAN COMMUTING
+def one_full_step(volk, alpha, system_size, contagiosity, immunity_step, time):
     # useful constants
     nr_people = np.size(volk)
 
@@ -31,10 +33,14 @@ def one_full_step(volk, alpha, system_size, contagiosity, immunity_step):
             earth[volk[i].pos[0], volk[i].pos[1]] += volk[i].health_status
 
     # now for every healthy person we check the trace of everybody else on the location of that person
+    # and make it infected with a probability. Also we stop infecting people who have arrived at work while others
+    # are still commuting.
     for i in range(0, nr_people):
         if (volk[i].health_status == 0 and volk[i].immunity != 1):
             dirtiesness = earth[volk[i].pos[0], volk[i].pos[1]]
             probability = dirtiesness * contagiosity
+            if (time == 'morning' and np.array_equal(volk[i].pos, volk[i].next_dest)):
+                probability = 0;
             if (np.random.rand() < probability):
                 volk[i].health_status = 1
     # increase the immunity of sick people towards 1, by steps of immunity_steps
@@ -108,23 +114,24 @@ def setting_new_destination(volk, building, plan_b_building):
     
     for i in range(0,nr_people):
 
+        if (volk[i].alive == 1): # destinations are only set for alive people
+            
+            if (building_type == 'work'):
+                volk[i].next_dest = building[volk[i].work].pos
 
-        if (building_type == 'work'):
-            volk[i].next_dest = building[volk[i].work].pos
+            if (building_type == 'home'):
+                volk[i].next_dest = building[volk[i].home].pos
 
-        if (building_type == 'home'):
-            volk[i].next_dest = building[volk[i].home].pos
-
-        if (building_type == 'social_place'):
-            if np.size(volk[i].social_places)>0:
-		desiredsocialplace  = np.random.randint(np.size(volk[i].social_places))
-		volk[i].next_dest = socialplace[volk[i].social_places[desiredsocialplace]].pos
-	    else:
-		volk[i].next_dest = plan_b_building[volk[i].home].pos
+            if (building_type == 'social_place'):
+                if np.size(volk[i].social_places)>0:
+		    desiredsocialplace  = np.random.randint(np.size(volk[i].social_places))
+		    volk[i].next_dest = socialplace[volk[i].social_places[desiredsocialplace]].pos
+	        else:
+		    volk[i].next_dest = plan_b_building[volk[i].home].pos
 		
 
 
-def commute_to_next_destionation(volk, alpha, city_size, contagiosity, immunity_step, home, work_place, social_place):
+def commute_to_next_destionation(volk, alpha, city_size, contagiosity, immunity_step, home, work_place, social_place, time):
 
     print('... commute started')
 
@@ -135,7 +142,8 @@ def commute_to_next_destionation(volk, alpha, city_size, contagiosity, immunity_
 
         nr_arrived = 0
 
-        one_full_step(volk, alpha, city_size, contagiosity, immunity_step)
+    
+        one_full_step(volk, alpha, city_size, contagiosity, immunity_step, time)
         # checking if everybody has arrived
         for i in range(nr_people):
             if np.array_equal(volk[i].pos, volk[i].next_dest):
