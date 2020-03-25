@@ -13,13 +13,17 @@ from plotter import plotter
 # Then later it will be checked if you are in a marked position. Depending on the strength of the mark, you get infected or not. 
 
 # The inputs are
-# volk: an array which consists of citizens,
-# alpha: the tendency to go to the next destination (see description in class citizen)
-# system_size: the spatial extension of the system
-# contagiosity: the factor which determines how likely it is to get infected if you are in the same position with a sick person. This value is [0:1]
-# immunity_step: increase of the immunity for a sick person after each timestep
+# volk : an array which consists of citizens,
+# alpha (obtained from city) : the tendency to go to the next destination (see description in class citizen)
+# system_size (obtained from city) : the spatial extension of the system
+# contagiosity (obtained from city) : the factor which determines how likely it is to get infected if you are in the same position with a sick person. This value is [0:1]
+# immunity_step (obtained from city) : increase of the immunity for a sick person after each timestep
 # time: if time is morning (i.e. we are commuting to work) and we have arrived at the destination, the steps after the arrival at work is not going to affect our health. THIS FEATURE CAN CAUSE PROBLEMS IF THIS FUNCTION IS USED FOR OTHER PORPUSES THAN COMMUTING
-def one_full_step(volk, alpha, system_size, contagiosity, immunity_step, time):
+def one_full_step(city, volk, time):
+    system_size = city.city_size
+    alpha = city.alpha
+    contagiosity = city.contagiosity
+    immunity_step = city.immunity_step
     # useful constants
     nr_people = np.size(volk)
 
@@ -60,12 +64,16 @@ def one_full_step(volk, alpha, system_size, contagiosity, immunity_step, time):
 
 # The inputs are
 # volk: an array which consists of citizens,
-# alpha: the tendency to go to the next destination (see description in class citizen)
-# system_size: the spatial extension of the system
-# contagiosity: the factor which determines how likely it is to get infected if you are in the same position with a sick person. This value is [0:1]
-# immunity_step: increase of the immunity for a sick person after each timestep
+# alpha (obtained from city) : the tendency to go to the next destination (see description in class citizen)
+# system_size (obtained from city) : the spatial extension of the system
+# contagiosity (obtained from city) : the factor which determines how likely it is to get infected if you are in the same position with a sick person. This value is [0:1]
+# immunity_step (obtained from city) : increase of the immunity for a sick person after each timestep
 
-def one_partial_step(volk, alpha, system_size, contagiosity, immunity_step):
+def one_partial_step(city, volk):
+    system_size = city.city_size
+    alpha = city.alpha
+    contagiosity = city.contagiosity
+    immunity_step = city.immunity_step
     # useful constants
     nr_people = np.size(volk)
 
@@ -131,10 +139,16 @@ def setting_new_destination(volk, building, plan_b_building):
 		
 
 
-def commute_to_next_destionation(volk, alpha, city_size, contagiosity, immunity_step, home, work_place, social_place, time):
+def commute_to_next_destionation(city, volk, home, work_place, social_place, time):
 
     print('... commute started')
 
+    alpha = city.alpha
+    city_size = city.city_size
+    contagiosity = city.contagiosity
+    immunity_step = city.immunity_step
+
+    # useful variables
     nr_arrived = 0
     nr_people = np.size(volk)
 
@@ -143,7 +157,7 @@ def commute_to_next_destionation(volk, alpha, city_size, contagiosity, immunity_
         nr_arrived = 0
 
     
-        one_full_step(volk, alpha, city_size, contagiosity, immunity_step, time)
+        one_full_step(city, volk, time)
         # checking if everybody has arrived
         for i in range(nr_people):
             if np.array_equal(volk[i].pos, volk[i].next_dest):
