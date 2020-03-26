@@ -146,12 +146,12 @@ def setting_new_destination(volk, building, plan_b_building):
 
             if (building_type == 'social_place'):
                 if np.size(volk[i].social_places)>0:
-		    desiredsocialplace  = np.random.randint(np.size(volk[i].social_places))
+                    desiredsocialplace  = np.random.randint(np.size(volk[i].social_places))
                     tmp =  int(volk[i].social_places[desiredsocialplace])
-		    volk[i].next_dest = building[tmp].pos
-	        else:
-		    volk[i].next_dest = plan_b_building[volk[i].home].pos
-		    print("individual i="+str(i)+" is going home instead of socializing")
+                    volk[i].next_dest = building[tmp].pos
+                else:
+                    volk[i].next_dest = plan_b_building[volk[i].home].pos
+                    print("individual i="+str(i)+" is going home instead of socializing")
                     print(volk[i].social_places)
 
 
