@@ -26,15 +26,15 @@ class simulation:
     info = 'simulation'
 
     # Initializer / Instance Attributes
-    def __init__(self,nr_people):
+    def __init__(self,nr_people,nr_homes,nr_workplaces,nr_socialplaces,city_size,percentage,contagiosity,immunity_step):
         self.nr_people = nr_people	# number of citizens
-        self.nr_homes =  100 # number of homes
-        self.nr_workplaces =	10 # number of work_places
-        self.nr_socialplaces = 40 # number of social places 
-        self.city_size = 100 # the spatial dimension of the city
-        self.percentage = 0.1 # the approximate percentage of infected people at the beginning
-        self.contagiosity = 0.0003 # the probability that you get infected if you are close to an infected person for a timestep
-        self.immunity_step = 1./1000 #increase of immunity per step for the infected; it is chosen such that it is smaller than 1/(number of steps per day), so the infected person does not heal over one day
+        self.nr_homes =  nr_homes # number of homes
+        self.nr_workplaces =	nr_workplaces # number of work_places
+        self.nr_socialplaces = nr_socialplaces # number of social places 
+        self.city_size = city_size # the spatial dimension of the city
+        self.percentage = percentage # the approximate percentage of infected people at the beginning
+        self.contagiosity = contagiosity # the probability that you get infected if you are close to an infected person for a timestep
+        self.immunity_step = immunity_step #increase of immunity per step for the infected; it is chosen such that it is smaller than 1/(number of steps per day), so the infected person does not heal over one day
         self.alpha = 10 # let it be! :D
         self.live_cam = True # True: shows every one at every time step, False: no over of the city
         self.live_stat = True #updates the graph of information every timestep. If False, it only shows the change after each commute or shift

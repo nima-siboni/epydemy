@@ -16,15 +16,7 @@ class Hello(FloatLayout):
     def __init__(self,**kwargs):
         super(Hello,self).__init__(**kwargs)
         
-        # self.nr_people = 400	# number of citizens
-        # self.nr_homes =  100 # number of homes
-        # self.nr_workplaces =	10 # number of work_places
-        # self.nr_socialplaces = 40 # number of social places 
-        # self.city_size = 100 # the spatial dimension of the city
-        # self.percentage = 0.1 # the approximate percentage of infected people at the beginning
-        # self.contagiosity = 0.0003 # the probability that you get infected if you are close to an infected person for a timestep
-        # self.immunity_step = 1./1000 #increase of immunity per step for the infected; it is chosen such that it is smaller than 1/(number of steps per day), so the infected person does not heal over one day
-        # self.alpha = 10 # let it be! :D
+
 
         self.label1 = Label(text = "nr_people", size_hint=(0.47, .05),pos_hint={'x':0.02, 'y':.9})
         self.text1 = TextInput(text='400', size_hint=(0.47, .05),pos_hint={'x':0.51, 'y':0.9})
@@ -53,6 +45,9 @@ class Hello(FloatLayout):
         self.start_button = Button(text = "Start", size_hint=(.47, .1),pos_hint={'x':0.02, 'y':0.4},on_press = self.start)
         self.stop_button = Button(text = "Stop", size_hint=(.47, .1),pos_hint={'x':0.51, 'y':0.4},on_press = self.stop)
 
+        self.LabelOut = Label(text = "Output", size_hint=(0.96, .3),pos_hint={'x':0.02, 'y':.1})
+
+
         self.add_widget(self.label1)
         self.add_widget(self.text1)
         self.add_widget(self.label2)
@@ -72,10 +67,20 @@ class Hello(FloatLayout):
         
         self.add_widget(self.start_button)
         self.add_widget(self.stop_button)
+        
+        self.add_widget(self.LabelOut)
 
     def start(self,event):
+        
         nr_people = int(self.text1.text)
-        self.Sim = simulation(nr_people)
+        nr_homes = int(self.text2.text)
+        nr_workplaces = int(self.text3.text)
+        nr_socialplaces = int(self.text4.text)
+        city_size = int(self.text5.text)
+        percentage = float(self.text6.text)
+        contagiosity = float(self.text7.text)
+        immunity_step = float(self.text8.text)
+        self.Sim = simulation(nr_people,nr_homes,nr_workplaces,nr_socialplaces,city_size,percentage,contagiosity,immunity_step)
         self.Sim.Run()
         
     def stop(self,event):
