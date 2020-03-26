@@ -20,16 +20,16 @@ from dynamics import setting_new_destination
 from dynamics import commute_to_next_destionation
 from municipality import health_statistics
 
-nr_people = 10000	# number of citizens
-nr_homes =  3000 # number of homes
-nr_workplaces =	200 # number of work_places
-nr_socialplaces = 1000 # number of social places 
-city_size = 2000 # the spatial dimension of the city
+nr_people = 400	# number of citizens
+nr_homes =  100 # number of homes
+nr_workplaces =	10 # number of work_places
+nr_socialplaces = 40 # number of social places 
+city_size = 100 # the spatial dimension of the city
 percentage = 0.02 # the approximate percentage of infected people at the beginning
-contagiosity = 0.0002 # the probability that you get infected if you are close to an infected person for a timestep
-immunity_step = 1./1200 #increase of immunity per step for the infected; it is chosen such that it is smaller than 1/(number of steps per day), so the infected person does not heal over one day
+contagiosity = 0.0005 # the probability that you get infected if you are close to an infected person for a timestep
+immunity_step = 1./1000 #increase of immunity per step for the infected; it is chosen such that it is smaller than 1/(number of steps per day), so the infected person does not heal over one day
 alpha = 10 # let it be! :D
-plotting = False
+plotting = True
 
 my_city = city(nr_people, nr_homes, nr_workplaces, nr_socialplaces, city_size, percentage, contagiosity, immunity_step, alpha, 0)
 # a duplicate of the city where no ones is sick and the disease is not contagiose
@@ -66,15 +66,15 @@ while (sick>0 and shift<100):
     #setting the new destination
     if (shift % 3 == 0):
         setting_new_destination(volk, work_place, home)
-        shift_duration_in_steps = 500
+        shift_duration_in_steps = 100
         time = 'morning'
     if (shift % 3 == 1):
         setting_new_destination(volk, social_place, home)
-        shift_duration_in_steps = 500
+        shift_duration_in_steps = 100
         time = 'evening'
     if (shift % 3 == 2):
         setting_new_destination(volk, home, home)
-        shift_duration_in_steps = 500
+        shift_duration_in_steps = 100
         time = 'night'
         
 
