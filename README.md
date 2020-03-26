@@ -24,3 +24,14 @@ You can start the simulation simply by
 python simulation.py
 
 ```
+To run the gui version first install the dependencies
+
+``` 
+pip3 install kivy
+
+```
+then run 
+```
+python main_gui.py
+
+```
