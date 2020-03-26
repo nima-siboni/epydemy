@@ -3,7 +3,10 @@ from citizen  import citizen
 import matplotlib.pyplot as plt
 from matplotlib import interactive
 import time
-from plotter import plotter
+from plotter import plot_birdseyeview
+from plotter import plot_info
+from plotter import clear_birdseyeview
+
 # WARNING: ONLY USE THIS FOR COMMUTE
 # if you want to use if for other porpuses be careful of time input and its meaning
 # one_full_step consists of
@@ -47,6 +50,7 @@ def one_full_step(city, volk, time):
                 probability = 0;
             if (np.random.rand() < probability):
                 volk[i].health_status = 1
+                 
     # increase the immunity of sick people towards 1, by steps of immunity_steps
     for i in range(0, nr_people):
         if (volk[i].health_status == 1 and volk[i].immunity < 1):
@@ -54,6 +58,10 @@ def one_full_step(city, volk, time):
         if (volk[i].immunity >= 1): #recoverd
             volk[i].immunity = 1
             volk[i].health_status = 0
+
+    if(city.live_stat == True):
+        plot_info(city, volk, city.info_graph)            
+
     # increment timestep by 1 unit        
     city.timestep = city.timestep + 1
 
@@ -93,7 +101,7 @@ def one_partial_step(city, volk):
             probability = dirtiesness * contagiosity
             if (np.random.rand() < probability):
                 volk[i].health_status = 1
-                
+
     # increase the immunity of sick people towards 1, by steps of immunity_steps
     for i in range(0, nr_people):
         if (volk[i].health_status == 1 and volk[i].immunity < 1):
@@ -101,6 +109,9 @@ def one_partial_step(city, volk):
         if (volk[i].immunity >= 1): #recoverd
             volk[i].immunity = 1
             volk[i].health_status = 0
+
+    if(city.live_stat == True):
+        plot_info(city, volk, city.info_graph)            
             
     city.timestep = city.timestep + 1
 
@@ -144,7 +155,7 @@ def setting_new_destination(volk, building, plan_b_building):
                     print(volk[i].social_places)
 
 
-def commute_to_next_destionation(city, volk, home, work_place, social_place, time, with_plotting):
+def commute_to_next_destionation(city, volk, home, work_place, social_place, time):
 
     print('... commute started')
 
@@ -167,12 +178,13 @@ def commute_to_next_destionation(city, volk, home, work_place, social_place, tim
             if np.array_equal(volk[i].pos, volk[i].next_dest):
                 nr_arrived += 1
         # plotting
-        if(with_plotting == True):
-            plt.clf()    
-            plotter(home, 'r^')
-            plotter(work_place, 'bs')
-            plotter(volk, 'go')
-            plotter(social_place, 'r+')
-            plt.pause(0.0005)
+        if (city.live_cam == True):
+            
+            clear_birdseyeview(city)
+            plot_birdseyeview(home, 'r^', city.birdseyeview)
+            plot_birdseyeview(work_place, 'bs', city.birdseyeview)
+            plot_birdseyeview(volk, 'go', city.birdseyeview)
+            plot_birdseyeview(social_place, 'r+', city.birdseyeview)
+            plt.pause(0.0001)
 
     print('... everyone arrived')

@@ -1,7 +1,8 @@
+import matplotlib.pyplot as plt
 class city:
     info = 'a container for city/disease properties'
 
-    def __init__(self, nr_people, nr_homes, nr_workplaces, nr_socialplaces, city_size, percentage, contagiosity, immunity_step, alpha, timestep):
+    def __init__(self, nr_people, nr_homes, nr_workplaces, nr_socialplaces, city_size, percentage, contagiosity, immunity_step, alpha, timestep, live_cam, live_stat):
         self.nr_people = nr_people	# number of citizens
         self.nr_homes = nr_homes # number of homes
         self.nr_workplaces = nr_workplaces # number of work_places
@@ -13,4 +14,8 @@ class city:
         self.alpha = alpha # let it be! :D
         self.timestep = timestep
         self.reportfile = open("health_reports.dat","w+")
-        
+        self.live_cam = live_cam
+        self.live_stat = live_stat
+        self.fig = None
+        self.birdseyeview = None
+        self.info_graph = None
