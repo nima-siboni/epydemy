@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib import interactive
 import time
-
+import random
 # Importing classes
 from building import building    
 from citizen  import citizen
@@ -21,17 +21,19 @@ from dynamics import setting_new_destination
 from dynamics import commute_to_next_destionation
 from municipality import health_statistics
 
+random.seed(0)
+np.random.seed(0)
 nr_people = 400	# number of citizens
 nr_homes =  100 # number of homes
 nr_workplaces =	10 # number of work_places
 nr_socialplaces = 40 # number of social places 
 city_size = 100 # the spatial dimension of the city
-percentage = 0.1 # the approximate percentage of infected people at the beginning
-contagiosity = 0.0003 # the probability that you get infected if you are close to an infected person for a timestep
-immunity_step = 1./1000 #increase of immunity per step for the infected; it is chosen such that it is smaller than 1/(number of steps per day), so the infected person does not heal over one day
+percentage = 0.01 # the approximate percentage of infected people at the beginning
+contagiosity = 0.000001 # the probability that you get infected if you are close to an infected person for a timestep
+immunity_step = 1./100/24/15 #increase of immunity per step for the infected; it is chosen such that it is smaller than 1/(number of steps per day), so the infected person does not heal over one day
 alpha = 10 # let it be! :D
-live_cam = True # True: shows every one at every time step, False: no over of the city
-live_stat = True #updates the graph of information every timestep. If False, it only shows the change after each commute or shift
+live_cam = False # True: shows every one at every time step, False: no over of the city
+live_stat = False # True:updates the graph of information every timestep. If False, it only shows the change after each commute or shift
 my_city = city(nr_people, nr_homes, nr_workplaces, nr_socialplaces, city_size, percentage, contagiosity, immunity_step, alpha, 0, live_cam, live_stat)
 # a duplicate of the city where no ones is sick and the disease is not contagiose
 healthy_city = city(nr_people, nr_homes, nr_workplaces, nr_socialplaces, city_size, 0, 0, immunity_step, alpha, 0, False, False)
@@ -67,19 +69,19 @@ for i in range(0, 800): #sending everybody home without getting sick
 
 
 shift = 0
-while (sick>0 and shift<100):
+while (sick > 0):
     #setting the new destination
     if (shift % 3 == 0):
         setting_new_destination(volk, work_place, home)
-        shift_duration_in_steps = 100
+        shift_duration_in_steps = 800
         time = 'morning'
     if (shift % 3 == 1):
         setting_new_destination(volk, social_place, home)
-        shift_duration_in_steps = 100
+        shift_duration_in_steps = 400
         time = 'evening'
     if (shift % 3 == 2):
         setting_new_destination(volk, home, home)
-        shift_duration_in_steps = 100
+        shift_duration_in_steps = 1200
         time = 'night'
         
     plot_info(my_city, volk, my_city.info_graph)            

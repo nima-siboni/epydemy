@@ -54,7 +54,7 @@ def plot_info(city, volk, smwhere):
     if (city.live_stat == True):
         xmin = max([city.timestep-40, 0])
     else:
-        xmin = max([0, city.timestep/4-40])
+        xmin = max([0, 0])#city.timestep/4-40])
         
     xmax = city.timestep + 10
     smwhere.set_xlim([xmin, xmax])
