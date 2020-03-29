@@ -7,3 +7,5 @@ class building:
         self.usage = building_type
     def number(self):
         return(np.size(self.peoples_id))        
+    def distance(self, another_building):
+        return abs(self.pos[0] - another_building.pos[0]) + abs(self.pos[1] - another_building.pos[1])

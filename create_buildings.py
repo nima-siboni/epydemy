@@ -13,8 +13,8 @@ def create_buildings(city, buildingtype):
         nr_building = city.nr_socialplaces
         
     result = np.empty(nr_building, dtype=object)
-    # First add one person per house
+
     for i in range(0, nr_building):
         posi = np.random.randint(city_size,size=2)
-        result[i] = building(posi, None, buildingtype)
+        result[i] = building(posi, np.empty(0), buildingtype)
     return result

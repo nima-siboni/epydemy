@@ -37,7 +37,7 @@ class simulation:
         self.immunity_step = immunity_step #increase of immunity per step for the infected; it is chosen such that it is smaller than 1/(number of steps per day), so the infected person does not heal over one day
         self.alpha = 10 # let it be! :D
         self.live_cam = True # True: shows every one at every time step, False: no over of the city
-        self.live_stat = True #updates the graph of information every timestep. If False, it only shows the change after each commute or shift
+        self.live_stat = False #updates the graph of information every timestep. If False, it only shows the change after each commute or shift
         self.my_city = city(self.nr_people, self.nr_homes, self.nr_workplaces, self.nr_socialplaces, self.city_size, self.percentage, self.contagiosity, self.immunity_step, self.alpha, 0, self.live_cam, self.live_stat)
         # a duplicate of the city where no ones is sick and the disease is not contagiose
         self.healthy_city = city(self.nr_people, self.nr_homes, self.nr_workplaces, self.nr_socialplaces, self.city_size, 0, 0, self.immunity_step, self.alpha, 0, False, False)

@@ -20,6 +20,7 @@ from dynamics import one_partial_step
 from dynamics import setting_new_destination
 from dynamics import commute_to_next_destionation
 from municipality import health_statistics
+from municipality import detailed_health_report
 
 random.seed(0)
 np.random.seed(0)
@@ -29,14 +30,15 @@ nr_workplaces =	10 # number of work_places
 nr_socialplaces = 40 # number of social places 
 city_size = 100 # the spatial dimension of the city
 percentage = 0.01 # the approximate percentage of infected people at the beginning
-contagiosity = 0.000001 # the probability that you get infected if you are close to an infected person for a timestep
-immunity_step = 1./100/24/15 #increase of immunity per step for the infected; it is chosen such that it is smaller than 1/(number of steps per day), so the infected person does not heal over one day
+contagiosity = 1*0.000001 # the probability that you get infected if you are close to an infected person for a timestep
+immunity_step = 1*1./100/24/15 #increase of immunity per step for the infected; it is chosen such that it is smaller than 1/(number of steps per day), so the infected person does not heal over one day
 alpha = 10 # let it be! :D
 live_cam = False # True: shows every one at every time step, False: no over of the city
 live_stat = False # True:updates the graph of information every timestep. If False, it only shows the change after each commute or shift
-my_city = city(nr_people, nr_homes, nr_workplaces, nr_socialplaces, city_size, percentage, contagiosity, immunity_step, alpha, 0, live_cam, live_stat)
+mute = False # Ture: completely mutes the graphical outputs
+my_city = city(nr_people, nr_homes, nr_workplaces, nr_socialplaces, city_size, percentage, contagiosity, immunity_step, alpha, 0, live_cam, live_stat, mute)
 # a duplicate of the city where no ones is sick and the disease is not contagiose
-healthy_city = city(nr_people, nr_homes, nr_workplaces, nr_socialplaces, city_size, 0, 0, immunity_step, alpha, 0, False, False)
+healthy_city = city(nr_people, nr_homes, nr_workplaces, nr_socialplaces, city_size, 0, 0, immunity_step, alpha, 0, False, False, mute)
 
 
 # setup the figure
@@ -95,4 +97,8 @@ while (sick > 0):
         
     
     shift = shift + 1
+
+detailed_health_report(my_city, volk, home, work_place, social_place)
+
 raw_input('press return to continue')
+

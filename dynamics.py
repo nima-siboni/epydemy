@@ -59,7 +59,7 @@ def one_full_step(city, volk, time):
             volk[i].immunity = 1
             volk[i].health_status = 0
 
-    if(city.live_stat == True):
+    if (city.mute == False and city.live_stat == True):
         plot_info(city, volk, city.info_graph)            
 
     # increment timestep by 1 unit        
@@ -110,7 +110,7 @@ def one_partial_step(city, volk):
             volk[i].immunity = 1
             volk[i].health_status = 0
 
-    if(city.live_stat == True):
+    if (city.mute == False and city.live_stat == True):
         plot_info(city, volk, city.info_graph)            
             
     city.timestep = city.timestep + 1
@@ -151,8 +151,8 @@ def setting_new_destination(volk, building, plan_b_building):
                     volk[i].next_dest = building[tmp].pos
                 else:
                     volk[i].next_dest = plan_b_building[volk[i].home].pos
-                    print("individual i="+str(i)+" is going home instead of socializing")
-                    print(volk[i].social_places)
+                    #print("individual i="+str(i)+" is going home instead of socializing")
+                    #print(volk[i].social_places)
 
 
 def commute_to_next_destionation(city, volk, home, work_place, social_place, time):
@@ -178,7 +178,7 @@ def commute_to_next_destionation(city, volk, home, work_place, social_place, tim
             if np.array_equal(volk[i].pos, volk[i].next_dest):
                 nr_arrived += 1
         # plotting
-        if (city.live_cam == True):
+        if (city.mute == False and city.live_cam == True):
             
             clear_birdseyeview(city)
             plot_birdseyeview(home, 'r^', city.birdseyeview)

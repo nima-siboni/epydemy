@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 class city:
     info = 'a container for city/disease properties'
 
-    def __init__(self, nr_people, nr_homes, nr_workplaces, nr_socialplaces, city_size, percentage, contagiosity, immunity_step, alpha, timestep, live_cam, live_stat):
+    def __init__(self, nr_people, nr_homes, nr_workplaces, nr_socialplaces, city_size, percentage, contagiosity, immunity_step, alpha, timestep, live_cam, live_stat, mute):
         self.nr_people = nr_people	# number of citizens
         self.nr_homes = nr_homes # number of homes
         self.nr_workplaces = nr_workplaces # number of work_places
@@ -13,9 +13,11 @@ class city:
         self.immunity_step = immunity_step #increase of immunity per step for the infected; it is chosen such that it is smaller than 1/(number of steps per day), so the infected person does not heal over one day
         self.alpha = alpha # let it be! :D
         self.timestep = timestep
-        self.reportfile = open("health_reports.dat","w+")
+        self.reportfile = open("time_resolved_health_reports.dat","w+")
+        self.finalreportfile = open("health_reports.dat","w+")
         self.live_cam = live_cam
         self.live_stat = live_stat
         self.fig = None
         self.birdseyeview = None
         self.info_graph = None
+        self.mute = mute
