@@ -188,3 +188,13 @@ def commute_to_next_destionation(city, volk, home, work_place, social_place, tim
             plt.pause(0.0001)
 
     print('... everyone arrived')
+
+# This function set the current position and the next destination of the people to their homes
+def send_people_home(city, volk, home):
+    print(' everyone is sent to their homes')
+    for i in range(0, city.nr_people):
+        volk[i].pos[0] = home[volk[i].home].pos[0]
+        volk[i].pos[1] = home[volk[i].home].pos[1]
+        volk[i].next_dest[0] = home[volk[i].home].pos[0]
+        volk[i].next_dest[1] = home[volk[i].home].pos[1]
+        

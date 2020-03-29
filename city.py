@@ -2,11 +2,11 @@ import matplotlib.pyplot as plt
 class city:
     info = 'a container for city/disease properties'
 
-    def __init__(self, nr_people, nr_homes, nr_workplaces, nr_socialplaces, city_size, percentage, contagiosity, immunity_step, alpha, timestep, live_cam, live_stat, mute):
+    def __init__(self, nr_people, nr_homes, nr_workplaces, nr_socialplaces, city_size, percentage, contagiosity, immunity_step, alpha, timestep, live_cam, live_stat, mute, max_individual_sociality):
         self.nr_people = nr_people	# number of citizens
         self.nr_homes = nr_homes # number of homes
         self.nr_workplaces = nr_workplaces # number of work_places
-        self.nr_socialplaces = nr_socialplaces  # number of social places 
+        self.nr_socialplaces = nr_socialplaces  # number of social places
         self.city_size = city_size  # the spatial dimension of the city
         self.percentage = percentage # the approximate percentage of infected people at the beginning
         self.contagiosity = contagiosity # the probability that you get infected if you are close to an infected person for a timestep
@@ -21,3 +21,6 @@ class city:
         self.birdseyeview = None
         self.info_graph = None
         self.mute = mute
+        self.max_individual_sociality = max_individual_sociality # the maximum number of social places that a person might go
+        
+                
