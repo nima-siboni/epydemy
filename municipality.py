@@ -49,22 +49,22 @@ def assign_volk_to_buildings_and_vice_versa(volk, building):
                 if (usage == 'home'):
                     volk[pid].home = bid
                 if (usage == 'work'):
-                    volk[pid].work = bid
-                    
+                    volk[pid].work = bid                    
+
     if (exclusive == False):
-        for bid in range(nr_building):
-            all_people_list = np.arange(nr_people)
-            np.random.shuffle(all_people_list);
-            nr_people_in_this_place = np.random.randint(1, nr_people + 1)
-            people_in_this_place = all_people_list[0 : nr_people_in_this_place]
+        for pid in range(nr_people):
+            all_buildings_list = np.arange(nr_building)
+            np.random.shuffle(all_buildings_list);
+            nr_buildings_for_this_person = np.random.randint(0, nr_building + 1)
+            buildings_for_this_person = all_buildings_list[0 : nr_buildings_for_this_person]
             # assiging some people to building number bid
-            building[bid].peoples_id = people_in_this_place
+            volk[pid].social_places = buildings_for_this_person
             # assigning the building id (bid) to the same people
-            for i in range(nr_people_in_this_place):
-                pid = people_in_this_place[i]
+            for i in range(nr_buildings_for_this_person):
+                bid = buildings_for_this_person[i]
                 # this part should be modified if usages of buildings are modified
                 if (usage == 'social_place'):
-                    volk[pid].social_places = np.append(volk[pid].social_places, int(bid))
+                    building[bid].peoples_id = np.append(building[bid].peoples_id, int(pid))
                 
     return volk, building
 
@@ -88,3 +88,43 @@ def health_statistics(city, volk, verbose):
         city.reportfile.write(str(city.timestep)+ ' ' + str(healthy) + ' ' + str(not_infected) + '  ' + str(recovered_or_immune) + '  ' + str(sick)+'\n')
         city.reportfile.flush()
     return healthy, not_infected, recovered_or_immune, sick
+
+
+def detailed_health_report(city, volk, home, work, social_place):
+
+    nr_people = np.size(volk)
+
+    for i in range(nr_people):
+        home_id = volk[i].home
+        my_home = home[home_id]
+        nr_people_in_home = my_home.number()
+        list_of_social_places = volk[i].social_places
+        work_id = volk[i].work
+        my_work = work[work_id]
+        nr_people_at_work = my_work.number()
+        distance_work_home = my_home.distance(my_work)
+                                                         
+        # lets gather some data about the socializing places of the individual number i
+        nr_socialplaces = np.size(list_of_social_places)
+        social_sum = 0
+        social_max = 0
+        distance_work_social_place = 0
+        distance_home_social_place = 0
+        
+        for j in range(0, nr_socialplaces):
+            spid = int(list_of_social_places[j])
+            this_social_place = social_place[spid]
+            tmp = this_social_place.number()
+            social_sum += tmp
+            if ( tmp > social_max ):
+                social_max = tmp
+            distance_work_social_place += my_work.distance(this_social_place) / nr_socialplaces
+            distance_home_social_place += my_home.distance(this_social_place) / nr_socialplaces
+
+        total_distance = distance_home_social_place + distance_work_social_place + distance_work_home
+        
+        if (i==0):
+            city.finalreportfile.write('# (1) id \t\n# (2) nr_people_in_home \t\n# (3) nr_people_at_work \t\n# (4) nr_socialplaces \t\n# (5) total_number of people in the socialing places \t\n# (6) maximum number of people in socialing places \t\n# (7) distance_work_home \t\n# (8) ave distance_work_social_place \t\n# (9) distance_home_social_place \t\n# (10) ave total_distance \t\n# (11) status \n')
+        city.finalreportfile.write(str(i)+ ' ' + str(nr_people_in_home) + ' ' + str(nr_people_at_work) + '  ' + str(nr_socialplaces) + '  ' + str(social_sum) + '  ' + str(social_max)+ '  ' + str(distance_work_home) + '  ' + str(distance_work_social_place) + '  ' + str(distance_home_social_place) + '  ' + str(total_distance) + '  ' + str(volk[i].immunity) + '\n')
+        
+    
