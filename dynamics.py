@@ -46,7 +46,7 @@ def one_full_step(city, volk, time):
         if (volk[i].health_status == 0 and volk[i].immunity != 1):
             dirtiesness = earth[volk[i].pos[0], volk[i].pos[1]]
             probability = dirtiesness * contagiosity
-            if (time == 'morning' and np.array_equal(volk[i].pos, volk[i].next_dest)):
+            if (np.array_equal(volk[i].pos, volk[i].next_dest)): #after you arrive at the desried destination you will not get infected till the next shift starts
                 probability = 0;
             if (np.random.rand() < probability):
                 volk[i].health_status = 1
