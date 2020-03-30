@@ -28,10 +28,10 @@ in a directory with an ```inputfile.dat``` for the inputs
 ![](a_snapshot.png)
 
 In the upper panel of the above graph a snapshot of the city is shown where
-* Yellow circle: sick people
-* Black circle: not-infected
-* Gray circle: recoverd 
-* Blue squares: work-place
-* Red triangles: homes
-* Red cross: social-places
+* yellow circle: sick people
+* black circle: not-infected
+* gray circle: recovered 
+* blue squares: work-places
+* red triangles: homes
+* red cross: social-places
 and in the lower panel the time evolution of different populations are depicted.
