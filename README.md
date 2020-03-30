@@ -29,9 +29,9 @@ in a directory with an ```inputfile.dat``` for the inputs
 
 In the upper panel of the above graph a snapshot of the city is shown where
 * Yellow circle: sick people
-* Black circle: Not-infected
-* Gray circle: Immune/healed : gray
+* Black circle: not-infected
+* Gray circle: recoverd 
 * Blue squares: work-place
 * Red triangles: homes
-* Red-cross: social-places
+* Red cross: social-places
 and in the lower panel the time evolution of different populations are depicted.
