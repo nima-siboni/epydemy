@@ -24,14 +24,14 @@ You can start the simulation simply by
 python simulation.py
 
 ```
-To run the gui version first install the dependencies
+in a directory with an ```inputfile.dat``` for the inputs
+![](a_snapshot.png)
 
-``` 
-pip3 install kivy
-
-```
-then run 
-```
-python main_gui.py
-
-```
+In the upper panel of the above graph a snapshot of the city is shown where
+* Yellow circle: sick people
+* Black circle: Not-infected
+* Gray circle: Immune/healed : gray
+* Blue squares: work-place
+* Red triangles: homes
+* Red-cross: social-places
+and in the lower panel the time evolution of different populations are depicted.
