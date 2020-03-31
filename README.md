@@ -35,4 +35,5 @@ In the upper panel of the above graph a snapshot of the city is shown where
 * blue squares: work-places
 * red triangles: homes
 * red cross: social-places
-and in the lower panel the time evolution of different populations are depicted.
+
+and in the lower panel the time evolution of different populations are depicted (in arbitrary units).
