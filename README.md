@@ -24,7 +24,8 @@ You can start the simulation simply by
 python simulation.py
 
 ```
-in a directory with an ```inputfile.dat``` for the inputs
+in a directory with an ```inputfile.dat``` for the inputs. The input file has information about the disease and the city (as explained in the sample file).
+
 ![](a_snapshot.png)
 
 In the upper panel of the above graph a snapshot of the city is shown where
