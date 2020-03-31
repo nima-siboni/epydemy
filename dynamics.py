@@ -178,7 +178,7 @@ def commute_to_next_destionation(city, volk, home, work_place, social_place, tim
             if np.array_equal(volk[i].pos, volk[i].next_dest):
                 nr_arrived += 1
         # plotting
-        if (city.mute == False and city.live_cam == True):
+        if (city.mute == False and city.live_cam == True and city.timestep%4 == 0):
             
             clear_birdseyeview(city)
             plot_birdseyeview(home, 'r^', city.birdseyeview)

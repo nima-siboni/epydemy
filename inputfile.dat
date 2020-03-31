@@ -8,7 +8,7 @@
 0.000001 contagisity after each time step
 0.000028 recovery rate for each time step
 10 a measure for directness of the walk which is not used any more
-False live camera
+True live camera
 False live stat
 False mute
 10 maximum number of social places for each individual
